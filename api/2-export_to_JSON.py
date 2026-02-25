@@ -1,26 +1,21 @@
 #!/usr/bin/python3
-"""
-Fetch and display an employee's TODO list progress
-from https://jsonplaceholder.typicode.com
-"""
-
+"""Export employee TODO list to JSON format."""
 import json
 import requests
 import sys
 
 
-def main():
-    if len(sys.argv) != 2:
-        sys.exit(1)
-
+if __name__ == "__main__":
     user_id = sys.argv[1]
-
     base_url = "https://jsonplaceholder.typicode.com"
 
-    user = requests.get(f"{base_url}/users/{user_id}").json()
+    user = requests.get("{}/users/{}".format(base_url, user_id)).json()
     username = user.get("username")
 
-    todos = requests.get(f"{base_url}/users/{user_id}/todos").json()
+    todos = requests.get(
+        "{}/todos?userId={}".format(base_url, user_id)
+    ).json()
+
     tasks = []
     for task in todos:
         tasks.append({
@@ -30,10 +25,8 @@ def main():
         })
 
     data = {user_id: tasks}
+    filename = "{}.json".format(user_id)
 
-    with open(f"{user_id}.json", mode="w", encoding="utf-8") as jsonfile:
+    with open(filename, mode="w", encoding="utf-8") as jsonfile:
         json.dump(data, jsonfile)
 
-
-if __name__ == "__main__":
-    main()
