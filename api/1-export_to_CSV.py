@@ -19,7 +19,6 @@ if __name__ == "__main__":
     filename = "{}.csv".format(user_id)
 
     with open(filename, mode="w", encoding="utf-8", newline="") as csvfile:
-        fieldnames = ["USER_ID", "USERNAME", "TASK_COMPLETED_STATUS", "TASK_TITLE"]
         writer = csv.writer(csvfile, quoting=csv.QUOTE_ALL)
 
         for task in todos:
