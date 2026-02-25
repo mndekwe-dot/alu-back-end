@@ -8,12 +8,14 @@ if __name__ == "__main__":
     employee_id = int(sys.argv[1])
     base_url = "https://jsonplaceholder.typicode.com"
 
-    user = requests.get("{}/users/{}".format(base_url, employee_id)).json()
+    user = requests.get(
+        "{}/users/{}".format(base_url, employee_id)
+    ).json()
     todos = requests.get(
         "{}/todos?userId={}".format(base_url, employee_id)
     ).json()
 
-    employee_name = user.get("username")
+    employee_name = user.get("name")
     done_tasks = [t for t in todos if t.get("completed") is True]
     total = len(todos)
     done = len(done_tasks)
