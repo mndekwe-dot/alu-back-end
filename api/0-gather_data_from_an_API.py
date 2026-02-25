@@ -13,8 +13,8 @@ if __name__ == "__main__":
         "{}/todos?userId={}".format(base_url, employee_id)
     ).json()
 
-    employee_name = user.get("name")
-    done_tasks = [t for t in todos if t.get("completed")]
+    employee_name = user.get("username")
+    done_tasks = [t for t in todos if t.get("completed") is True]
     total = len(todos)
     done = len(done_tasks)
 
