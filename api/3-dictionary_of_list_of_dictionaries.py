@@ -1,24 +1,26 @@
 #!/usr/bin/python3
-"""Export all employees TODO list to JSON format."""
+"""Export all employees TODO list data to JSON format."""
 import json
 import requests
 
 
 if __name__ == "__main__":
     base_url = "https://jsonplaceholder.typicode.com"
+
     users = requests.get("{}/users".format(base_url)).json()
-    all_tasks = {}
+    todos = requests.get("{}/todos".format(base_url)).json()
+
+    data = {}
     for user in users:
-        user_id = str(user.get("id"))
+        uid = str(user.get("id"))
         username = user.get("username")
-        all_tasks[user_id] = []
-        todos = requests.get("{}/todos?userId={}".format(base_url, user_id)).json()
-        for task in todos:
-            all_tasks[user_id].append({
+        data[uid] = [
+            {
                 "username": username,
-                "task": task.get("title"),
-                "completed": task.get("completed")
-            })
-    filename = "todo_all_employees.json"
-    with open(filename, mode="w", encoding="utf-8") as jsonfile:
-        json.dump(all_tasks, jsonfile)
+                "task": t.get("title"),
+                "completed": t.get("completed")
+            } for t in todos if t.get("userId") == user.get("id")
+        ]
+
+    with open("todo_all_employees.json", "w") as f:
+        json.dump(data, f)
