@@ -26,4 +26,3 @@ if __name__ == "__main__":
     filename = "todo_all_employees.json"
     with open(filename, mode="w", encoding="utf-8") as jsonfile:
         json.dump(all_tasks, jsonfile)
-
